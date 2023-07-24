@@ -5,8 +5,11 @@ export const TaskInput = ({ addTaskFunc }) => {
   const [taskInput, setTaskInput] = useState("");
 
   const addTaskBtnOnClick = () => {
-    addTaskFunc(taskInput);
-    setTaskInput("");
+    //remove free space
+    if (taskInput.trim() !== "") {
+      addTaskFunc(taskInput.trim());
+      setTaskInput("");
+    }
   };
 
   const taskInputOnChange = (event) => {
@@ -14,8 +17,9 @@ export const TaskInput = ({ addTaskFunc }) => {
   };
 
   const taskInputOnKeyUp = (event) => {
-    if (event.key === "Enter" && taskInput !== "") addTaskBtnOnClick();
+    if (event.key === "Enter" && taskInput.trim() !== "") addTaskBtnOnClick();
   };
+  const DisableBtn = taskInput.trim() === ""; //have free space cant press
 
   return (
     <div className="d-flex gap-1">
@@ -26,7 +30,11 @@ export const TaskInput = ({ addTaskFunc }) => {
         onKeyUp={taskInputOnKeyUp}
         value={taskInput}
       />
-      <button className="btn btn-primary" onClick={addTaskBtnOnClick}>
+      <button
+        className="btn btn-primary"
+        onClick={addTaskBtnOnClick}
+        disabled={DisableBtn}
+      >
         Add
       </button>
     </div>
